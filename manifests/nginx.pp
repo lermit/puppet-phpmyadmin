@@ -11,7 +11,7 @@ class phpmyadmin::nginx inherits phpmyadmin {
 
   nginx::vhost { $phpmyadmin::web_virtualhost :
     template  => $phpmyadmin::real_web_server_template,
-    docroot  => $phpmyadmin::real_data_dir,
+    docroot   => $phpmyadmin::real_data_dir,
   }
 
 }

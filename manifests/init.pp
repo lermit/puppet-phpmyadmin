@@ -306,12 +306,15 @@ class phpmyadmin (
   }
 
   $manage_file_content = $phpmyadmin::template ? {
-    ''        => undef,
-    default   => template($phpmyadmin::template),
+    ''      => undef,
+    default => $phpmyadmin::source ? {
+      ''      => template($phpmyadmin::template),
+      default => undef,
+    }
   }
 
   $manage_install_dirname = $phpmyadmin::install_dirname ? {
-    '' => $phpmyadmin::install ? {
+    ''      => $phpmyadmin::install ? {
       'package' => '',
       default   => regsubst(url_parse($phpmyadmin::install_source,'filedir'),'.tar','')
     },
@@ -319,7 +322,7 @@ class phpmyadmin (
   }
 
   ### Calculations of variables whoe value depends on different params
-  $real_install_destination = $phpmyadmin::install_destination ? { 
+  $real_install_destination = $phpmyadmin::install_destination ? {
     ''      => $phpmyadmin::web_server ? {
       default => $::operatingsystem ? {
         /(?i:Debian|Ubuntu|Mint)/ => '/var/www',
