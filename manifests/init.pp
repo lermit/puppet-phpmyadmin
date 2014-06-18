@@ -120,7 +120,7 @@
 #   Can be defined also by the variable $phpmyadmin_template
 #
 # [*options*]
-#   An hash of custom options to be used in templates for arbitrary settings.
+#   A hash of custom options to be used in templates for arbitrary settings.
 #   Can be defined also by the variable $phpmyadmin_options
 #
 # [*absent*]
