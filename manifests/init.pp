@@ -102,8 +102,8 @@
 #   Can be defined also by the variable $phpmyadmin_source
 #
 # [*source_dir*]
-#   If defined, the whole phpmyadmin configuration directory content is retrieved
-#   recursively from the specified source
+#   If defined, the whole phpmyadmin configuration directory content is
+#   retrieved recursively from the specified source
 #   (source => $source_dir , recurse => true)
 #   Can be defined also by the variable $phpmyadmin_source_dir
 #
@@ -259,7 +259,8 @@ class phpmyadmin (
   $ip_addr                 = params_lookup( 'ip_addr' ),
   $port                    = params_lookup( 'port' ),
   $log_dir                 = params_lookup( 'log_dir' ),
-  $log_file                = params_lookup( 'log_file' )
+  $log_file                = params_lookup( 'log_file' ),
+  $mysql_servers           = params_lookup( 'mysql_servers' ),
   ) inherits phpmyadmin::params {
 
   $bool_source_dir_purge=any2bool($source_dir_purge)
@@ -316,7 +317,12 @@ class phpmyadmin (
   $manage_install_dirname = $phpmyadmin::install_dirname ? {
     ''      => $phpmyadmin::install ? {
       'package' => '',
-      default   => regsubst(url_parse($phpmyadmin::install_source,'filedir'),'.tar','')
+      default   => regsubst(
+        url_parse(
+          $phpmyadmin::install_source,
+          'filedir')
+        ,'.tar'
+      ,'')
     },
     default => $phpmyadmin::install_dirname,
   }

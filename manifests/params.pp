@@ -24,12 +24,14 @@ class phpmyadmin::params {
   $url_pattern = 'phpmyadmin'
   $web_server = 'apache'
   $web_server_template = ''
-  $web_virtualhost = "phpmyadmin.$::fqdn"
+  $web_virtualhost = "phpmyadmin.${::fqdn}"
   $web_virtualhost_aliases = ''
   $db_host = 'localhost'
   $db_name = 'phpmyadmin'
   $db_user = 'phpmyadmin'
   $db_password = fqdn_rand(100000000000)
+
+  $mysql_servers = [ 'localhost' ]
 
   ### Application related parameters
 
