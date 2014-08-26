@@ -24,9 +24,9 @@ $i = 0;
 /*
 * First server
 */
+<% @mysql_servers.each do |mysql_server| -%>
 $i++;
 
-<% @mysql_servers.each do |mysql_server| -%>
 /* Authentication type */
 $cfg['Servers'][$i]['auth_type'] = 'cookie';
 /* Server parameters */
