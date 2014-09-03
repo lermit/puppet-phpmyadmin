@@ -17,18 +17,20 @@ describe 'phpmyadmin' do
 
     it { should contain_file('phpmyadmin.conf').with_ensure('present') }
     it 'should monitor the url' do
-      content = catalogue.resource('monitor::url', 'phpmyadmin_url').send(:parameters)[:enable]
-      content.should == true
+      should contain_monitor__url('phpmyadmin_url').with_enable(true)
     end
   end
 
   describe 'Test source installation' do
-    let(:params) { {:install => 'source' , :web_server => 'apache' } }
+    let(:params) { {
+      :install        => 'source' ,
+      :web_server     => 'apache',
+      :install_source => 'http://downloads.sourceforge.net/project/phpmyadmin/phpMyAdmin/4.1.5/phpMyAdmin-4.1.5-all-languages.tar.gz',
+    } }
     let(:facts) { { :ipaddress => '10.42.42.42' , :operatingsystem => 'Ubuntu' } }
 
     it 'should contain a netinstall resource with valid destination_dir' do
-      content = catalogue.resource('puppi::netinstall', 'netinstall_phpmyadmin').send(:parameters)[:destination_dir]
-      content.should == '/var/www'
+      should contain_puppi__netinstall('netinstall_phpmyadmin').with_destination_dir('/var/www')
     end
   end
 
@@ -37,8 +39,7 @@ describe 'phpmyadmin' do
     let(:facts) { { :ipaddress => '10.42.42.42' , :operatingsystem => 'Ubuntu' } }
 
     it 'should contain a puppi  project resource with valid destination_dir' do
-      content = catalogue.resource('puppi::project::archive', 'phpmyadmin').send(:parameters)[:deploy_root]
-      content.should == '/var/www'
+      should contain_puppi__project::archive('phpmyadmin').with_deploy_root('/var/www')
     end
   end
 
@@ -46,7 +47,7 @@ describe 'phpmyadmin' do
     let(:params) { {:absent => true, :monitor => true } }
     let(:facts) { { :ipaddress => '10.42.42.42' , :operatingsystem => 'Ubuntu' } }
 
-    it 'should remove Package[phpmyadmin]' do should contain_package('phpmyadmin').with_ensure('absent') end 
+    it 'should remove Package[phpmyadmin]' do should contain_package('phpmyadmin').with_ensure('absent') end
     it 'should remove phpmyadmin configuration file' do should contain_file('phpmyadmin.conf').with_ensure('absent') end
   end
 
@@ -55,12 +56,10 @@ describe 'phpmyadmin' do
     let(:facts) { { :ipaddress => '10.42.42.42' , :operatingsystem => 'Ubuntu' } }
 
     it 'should generate a valid template' do
-      content = catalogue.resource('file', 'phpmyadmin.conf').send(:parameters)[:content]
-      content.should match "fqdn: rspec.example42.com"
+      should contain_file('phpmyadmin.conf').with_content(/fqdn: rspec.example42.com/)
     end
     it 'should generate a template that uses custom options' do
-      content = catalogue.resource('file', 'phpmyadmin.conf').send(:parameters)[:content]
-      content.should match "value_a"
+      should contain_file('phpmyadmin.conf').with_content(/value_a/)
     end
 
   end
@@ -70,16 +69,13 @@ describe 'phpmyadmin' do
     let(:facts) { { :ipaddress => '10.42.42.42' , :operatingsystem => 'Ubuntu' } }
 
     it 'should request a valid source ' do
-      content = catalogue.resource('file', 'phpmyadmin.conf').send(:parameters)[:source]
-      content.should == "puppet://modules/phpmyadmin/spec"
+      should contain_file('phpmyadmin.conf').with_source("puppet://modules/phpmyadmin/spec")
     end
     it 'should request a valid source dir' do
-      content = catalogue.resource('file', 'phpmyadmin.dir').send(:parameters)[:source]
-      content.should == "puppet://modules/phpmyadmin/dir/spec"
+      should contain_file('phpmyadmin.dir').with_source("puppet://modules/phpmyadmin/dir/spec")
     end
     it 'should purge source dir if source_dir_purge is true' do
-      content = catalogue.resource('file', 'phpmyadmin.dir').send(:parameters)[:purge]
-      content.should == true
+      should contain_file('phpmyadmin.dir').with_purge(true)
     end
   end
 
@@ -88,8 +84,7 @@ describe 'phpmyadmin' do
     let(:facts) { { :ipaddress => '10.42.42.42' , :operatingsystem => 'Ubuntu' } }
 
     it 'should automatically include a custom class' do
-      content = catalogue.resource('file', 'phpmyadmin.conf').send(:parameters)[:content]
-      content.should match "fqdn: rspec.example42.com"
+      should contain_file('phpmyadmin.conf').with_content(/fqdn: rspec.example42.com/)
     end
   end
 
@@ -98,8 +93,7 @@ describe 'phpmyadmin' do
     let(:facts) { { :ipaddress => '10.42.42.42' , :operatingsystem => 'Ubuntu' } }
 
     it 'should generate a puppi::ze define' do
-      content = catalogue.resource('puppi::ze', 'phpmyadmin').send(:parameters)[:helper]
-      content.should == "myhelper"
+      should contain_puppi__ze('phpmyadmin').with_helper("myhelper")
     end
   end
 
@@ -108,8 +102,7 @@ describe 'phpmyadmin' do
     let(:params) { { :url_check => 'http://phpmyadmin.example42.com' } }
 
     it 'should honour top scope global vars' do
-      content = catalogue.resource('monitor::url', 'phpmyadmin_url').send(:parameters)[:enable]
-      content.should == true
+      should contain_monitor__url('phpmyadmin_url').with_enable(true)
     end
   end
 
@@ -118,8 +111,7 @@ describe 'phpmyadmin' do
     let(:params) { { :url_check => 'http://phpmyadmin.example42.com' } }
 
     it 'should honour module specific vars' do
-      content = catalogue.resource('monitor::url', 'phpmyadmin_url').send(:parameters)[:enable]
-      content.should == true
+      should contain_monitor__url('phpmyadmin_url').with_enable(true)
     end
   end
 
@@ -128,8 +120,7 @@ describe 'phpmyadmin' do
     let(:params) { { :url_check => 'http://phpmyadmin.example42.com' } }
 
     it 'should honour top scope module specific over global vars' do
-      content = catalogue.resource('monitor::url', 'phpmyadmin_url').send(:parameters)[:enable]
-      content.should == true
+      should contain_monitor__url('phpmyadmin_url').with_enable(true)
     end
   end
 
@@ -138,8 +129,7 @@ describe 'phpmyadmin' do
     let(:params) { { :monitor => true , :url_check => 'http://phpmyadmin.example42.com' } }
 
     it 'should honour passed params over global vars' do
-      content = catalogue.resource('monitor::url', 'phpmyadmin_url').send(:parameters)[:enable]
-      content.should == true
+      should contain_monitor__url('phpmyadmin_url').with_enable(true)
     end
   end
 
