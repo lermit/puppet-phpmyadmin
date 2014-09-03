@@ -12,18 +12,16 @@
 #     - package : Installs phpmyadmin using the OS common packages
 #     - source  : Installs phpmyadmin downloading and extracting a specific
 #                 tarball or zip file
-#     - puppi   : Installs phpmyadmin tarball or file via Puppi, creating the
-#                 "puppi deploy phpmyadmin" command
 #   Can be defined also by the variable $phpmyadmin_install
 #
 # [*install_source*]
 #   The URL from where to retrieve the source tarball/zip.
-#   Used and mandatory if install => "source" or "puppi"
+#   Used and mandatory if install => "source"
 #   Can be defined also by the variable $phpmyadmin_install_source
 #
 # [*install_destination*]
 #   The base path where to extract the source tarball/zip.
-#   Used if install => "source" or "puppi"
+#   Used if install => "source"
 #   By default is the distro's default DocumentRoot for Web server
 #   Can be defined also by the variable $phpmyadmin_install_destination
 #
@@ -33,13 +31,13 @@
 #
 # [*install_precommand*]
 #   A custom command to execute before installing the source tarball/zip.
-#   Used if install => "source" or "puppi"
+#   Used if install => "source"
 #   Check phpmyadmin/manifests/params.pp before overriding the default settings
 #   Can be defined also by the variable $phpmyadmin_install_precommand
 #
 # [*install_postcommand*]
 #   A custom command to execute after installing the source tarball/zip.
-#   Used if install => "source" or "puppi"
+#   Used if install => "source"
 #   Check phpmyadmin/manifests/params.pp before overriding the default settings
 #   Can be defined also by the variable $phpmyadmin_install_postcommand
 #

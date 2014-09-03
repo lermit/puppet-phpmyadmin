@@ -6,8 +6,7 @@ fixtures:
     "iptables": "git://github.com/example42/puppet-iptables.git"
     "concat": "git://github.com/example42/puppet-concat.git"
     "apache": "git://github.com/example42/puppet-apache.git"
-    "php": "git://github.com/example42/puppet-php.git"
-    "mysql": "git://github.com/example42/puppet-mysql.git"
+    "stdlib": "https://github.com/example42/puppetlabs-stdlib.git"
   symlinks:
     "phpmyadmin": "#{source_dir}"
 

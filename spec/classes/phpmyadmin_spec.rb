@@ -34,15 +34,6 @@ describe 'phpmyadmin' do
     end
   end
 
-  describe 'Test puppi installation' do
-    let(:params) { {:install => 'puppi' , :web_server => 'apache' } }
-    let(:facts) { { :ipaddress => '10.42.42.42' , :operatingsystem => 'Ubuntu' } }
-
-    it 'should contain a puppi  project resource with valid destination_dir' do
-      should contain_puppi__project::archive('phpmyadmin').with_deploy_root('/var/www')
-    end
-  end
-
   describe 'Test decommissioning - absent' do
     let(:params) { {:absent => true, :monitor => true } }
     let(:facts) { { :ipaddress => '10.42.42.42' , :operatingsystem => 'Ubuntu' } }

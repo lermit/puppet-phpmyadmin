@@ -32,18 +32,6 @@ class phpmyadmin::install inherits phpmyadmin {
       }
     }
 
-    puppi: {
-      puppi::project::archive { 'phpmyadmin':
-        source                   => $phpmyadmin::install_source,
-        deploy_root              => $phpmyadmin::real_install_destination,
-        predeploy_customcommand  => $phpmyadmin::install_precommand,
-        postdeploy_customcommand => $phpmyadmin::real_install_postcommand,
-        report_email             => 'root',
-        auto_deploy              => true,
-        enable                   => true,
-      }
-    }
-
     default: { }
 
   }
