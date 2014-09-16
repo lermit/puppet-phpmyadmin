@@ -7,6 +7,17 @@
 #
 # WebApp Specific params
 #
+# [*restrict_ip*]
+#  Specify ip you want to restrict to the access of the pma instance.
+#  Default value is to allow everybody. If you set the parameter to something
+#  like 
+#    restrict_ip => [
+#      '127.0.0.1',
+#      '10.42.42.42',
+#    ]
+#  You will allow only host with ip 127.0.0.1 and 10.42.42.42 to acces PMA.
+#  Default: ''
+#
 # [*install*]
 #   Kind of installation to attempt:
 #     - package : Installs phpmyadmin using the OS common packages
@@ -229,6 +240,7 @@ class phpmyadmin (
   $web_server_template     = params_lookup( 'web_server_template' ),
   $web_virtualhost         = params_lookup( 'web_virtualhost' ),
   $web_virtualhost_aliases = params_lookup( 'web_virtualhost_aliases' ),
+  $restrict_ip             = params_lookup( 'restrict_ip' ),
   $db_name                 = params_lookup( 'db_name' ),
   $db_host                 = params_lookup( 'db_host' ),
   $db_user                 = params_lookup( 'db_user' ),
@@ -267,6 +279,10 @@ class phpmyadmin (
   $bool_puppi=any2bool($puppi)
   $bool_debug=any2bool($debug)
   $bool_audit_only=any2bool($audit_only)
+  $bool_restrict_ip=$restrict_ip ? {
+    ''      => false,
+    default => true,
+  }
 
   if $install != 'package' and $install_source == '' {
     fail("'*install_source*' must be set when '*install*' is set to ${install}")

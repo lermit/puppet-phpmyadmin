@@ -26,6 +26,7 @@ class phpmyadmin::params {
   $web_server_template = ''
   $web_virtualhost = "phpmyadmin.${::fqdn}"
   $web_virtualhost_aliases = ''
+  $restrict_ip = ''
   $db_host = 'localhost'
   $db_name = 'phpmyadmin'
   $db_user = 'phpmyadmin'

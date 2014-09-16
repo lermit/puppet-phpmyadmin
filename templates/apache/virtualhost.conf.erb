@@ -16,7 +16,16 @@
 
     <Directory <%= docroot %>>
         AllowOverride All
+<% if @bool_restrict_ip %>
+        Order Deny,Allow
+        Deny From All
+<% @restrict_ip.each do |ip| -%>
+        Allow from <%= ip %>
+<% end %>
+<% end %>
     </Directory>
+
+      Order 
 
 </VirtualHost>
 

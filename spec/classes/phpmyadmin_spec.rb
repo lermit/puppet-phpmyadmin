@@ -124,5 +124,21 @@ describe 'phpmyadmin' do
     end
   end
 
+  describe 'Test with restrict IP address access' do
+    let(:params) { {
+      :restrict_ip => [
+        '127.0.0.1',
+        '10.42.42.42',
+      ]
+    }}
+
+    it { should contain_file('/50-phpmyadmin.conf').with_content(/Order Deny,Allow\n *Deny From All\n *Allow from 127.0.0.1\n *Allow from 10.42.42.42/) }
+  end
+
+  describe 'Test without restrict IP address access' do
+    it { should_not contain_file('/50-phpmyadmin.conf').with_content(/Order Deny,Allow\n *Deny From All/) }
+
+  end
+
 end
 
