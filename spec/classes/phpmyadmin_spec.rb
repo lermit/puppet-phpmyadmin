@@ -140,5 +140,16 @@ describe 'phpmyadmin' do
 
   end
 
+  describe 'Test apache docroot and servername' do
+    let(:params) { {
+      :install        => 'source' ,
+      :web_server     => 'apache',
+      :install_source => 'http://downloads.sourceforge.net/project/phpmyadmin/phpMyAdmin/4.1.5/phpMyAdmin-4.1.5-all-languages.tar.gz',
+    } }
+
+    it { should contain_file('/50-phpmyadmin.conf').with_content(/DocumentRoot \/var\/www\/phpMyAdmin-4\.1\.5-all-languages/) }
+    it { should contain_file('/50-phpmyadmin.conf').with_content(/<Directory \/var\/www\/phpMyAdmin-4\.1\.5-all-languages>/) }
+    it { should contain_file('/50-phpmyadmin.conf').with_content(/ServerAdmin webmaster@phpmyadmin/) }
+  end
 end
 
